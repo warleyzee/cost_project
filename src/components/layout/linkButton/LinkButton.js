@@ -7,4 +7,4 @@ function LinkButton({to, text}){
   )
 }
 
-export default LinkButton;
+export default LinkButton; 
