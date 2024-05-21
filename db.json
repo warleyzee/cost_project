@@ -1,13 +1,36 @@
 {
-  "projects":[],
-  "categories":[
+  "projects": [
+    {
+      "id": "e435",
+      "name": "test",
+      "price": "5000",
+      "category": {
+        "id": "1",
+        "name": "Infra"
+      },
+      "cost": 0,
+      "server": []
+    },
+    {
+      "id": "6815",
+      "name": "test 2",
+      "price": "10000",
+      "category": {
+        "id": "2",
+        "name": "Networkig"
+      },
+      "cost": 0,
+      "server": []
+    }
+  ],
+  "categories": [
     {
       "id": 1,
       "name": "Infra"
     },
     {
       "id": 2,
-      "name": "Networkin"
+      "name": "Networkig"
     },
     {
       "id": 3,
