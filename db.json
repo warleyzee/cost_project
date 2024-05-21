@@ -1,0 +1,25 @@
+{
+  "projects":[],
+  "categories":[
+    {
+      "id": 1,
+      "name": "Infra"
+    },
+    {
+      "id": 2,
+      "name": "Networkin"
+    },
+    {
+      "id": 3,
+      "name": "DevOps"
+    },
+    {
+      "id": 4,
+      "name": "Designer"
+    },
+    {
+      "id": 5,
+      "name": "Cloud"
+    }
+  ]
+}
