@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 import styles from './CardProject.module.css';
 
-function CardProject({name, price, handleRemove }){
-  return(
+function CardProject({ name, price, handleRemove }) {
+  return (
     <div className={styles.card_container}>
       <div className={styles.wrapper}>
         <div className={styles.banner_image}>
@@ -18,7 +18,6 @@ function CardProject({name, price, handleRemove }){
             </Link>
           </div>
         </div>
-        
       </div>
     </div>
   )

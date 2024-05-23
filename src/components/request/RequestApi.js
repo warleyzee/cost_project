@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import CardProject from '../layout/card/CardProject';
 
-function RequesteApi() {
+function RequesteApi( { onRequestComplete }) {
 
-    const [data, setData] = useState([]);
-    const [FilterData, setFilterData] = useState([]);
+  const [data, setData] = useState([]);
+  const [FilterData, setFilterData] = useState([]);
 
-    useEffect(() => {
+  useEffect(() => {
+    setTimeout(() => {
+      if (onRequestComplete) {
+        onRequestComplete();
+      }
       fetch('http://localhost:5000/projects')
         .then(response => {
           if (!response.ok) {
@@ -19,13 +23,14 @@ function RequesteApi() {
         })
         .catch(error => {
           console.error('Erro ao buscar dados da API:', error);
-      });
-    }, []);
+        });
+    }, 3000)
+  }, [onRequestComplete]);
 
-    useEffect(() => {
-      const results = data;
-      setFilterData(results);
-    },)
+  useEffect(() => {
+    const results = data;
+    setFilterData(results);
+  },)
 
   return (
     <div>
