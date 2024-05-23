@@ -4,6 +4,7 @@ import Message from '../../layout/message/Message';
 import styles from './Project.module.css';
 import Container from '../../layout/container/container';
 import LinkButton from '../../layout/linkButton/LinkButton';
+import RequesteApi from '../../request/RequestApi';
 
 function Project(){
 
@@ -21,8 +22,8 @@ function Project(){
       </div>
         {message && <Message type="success" msg={message} />}
         <Container custoClasse="start">
-          <p>Project</p>
-
+          <RequesteApi />
+          
         </Container>
     </div>
   );

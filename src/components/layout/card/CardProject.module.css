@@ -1,0 +1,97 @@
+
+.card_container {
+  display: inline;
+  float: left;
+  padding: 1em;
+  border-radius: 12px;  
+  filter: drop-shadow(0 30px 10px rgba(0,0,0,0.125));
+  text-align: center;
+  box-sizing: border-box;
+  max-width: 400px;
+}
+
+.card_container:hover {
+  transform: scale(1.125);
+  transition: all 0.4s ease;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.banner_image {
+  background-image: url(https://images.unsplash.com/photo-1641326201918-3cafc641038e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80);
+  background-position: center;
+  background-size: cover;
+  height: 300px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.255);
+}
+
+.h1Name {
+  color: #ffbb33;
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  padding: 2px;
+}
+
+p {
+  color: #fff;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 150%;
+  letter-spacing: 2px;
+}
+
+span{
+  font-weight: bold;
+}
+
+.button_wrapper {
+  margin-top: 20px;
+}
+
+.btn_outline {
+  background: transparent;
+  color: rgba(0, 212, 255, 0.6);
+  border: 1px solid rgba(0, 212, 255, 0.6);
+  transition: all 0.3s ease;
+  margin-left: 100px;
+  margin-top: 150px;
+  border: none;
+  padding: 22px 24px;
+  border-radius: 24px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.btn_outline:hover {
+  transform: scale(1.125);
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.btn_fill {
+  background: rgba(0, 212, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
+  filter: drop-shadow(0);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.btn_fill:hover {
+  transform: scale(1.125);
+  border-color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.125));
+  transition: all 0.3s ease;
+}
