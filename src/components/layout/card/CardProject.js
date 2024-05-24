@@ -28,7 +28,7 @@ function CardProject({ id, name, price, handleRemove }) {
       return resp.json();
     })
     .then(() => {
-      handleRemove(id); // Atualiza a lista de projetos no componente pai
+      handleRemove(id);
     })
     .catch((err) => console.log(err));
   };
@@ -47,7 +47,7 @@ function CardProject({ id, name, price, handleRemove }) {
             <Link>
               <button className={styles.btn_outline} onClick={handleDeleteClick}>REMOVE</button>
             </Link>
-            <Link>
+            <Link to={"/newProject"}>
               <button className={styles.btn_fill} >EDIT</button>
             </Link>
           </div>
