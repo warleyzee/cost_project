@@ -47,7 +47,7 @@ function CardProject({ id, name, price, handleRemove }) {
             <Link>
               <button className={styles.btn_outline} onClick={handleDeleteClick}>REMOVE</button>
             </Link>
-            <Link to={"/newProject"}>
+            <Link to={`/editProject/${id}`}>
               <button className={styles.btn_fill} >EDIT</button>
             </Link>
           </div>

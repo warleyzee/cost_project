@@ -7,6 +7,7 @@ import Contact from './components/pages/contact/ContactIndex';
 import Project from './components/pages/project/Project';
 import Navbar from './components/layout/navbar/Navbar';
 import Footer from './components/layout/footer/Footer';
+import EditProject from './components/requestApi/editProject/EditProject';
 
 import Container from './components/layout/container/container';
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/project" element={<Project />} />
           <Route path="/newProject" element={<NewProject />} />
+          <Route path="/editProject/:id" element={<EditProject />} />
         </Routes>
       </Container>
       <Footer />

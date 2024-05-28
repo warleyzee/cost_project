@@ -26,6 +26,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
   const submit = (e) => {
     e.preventDefault()
     handleSubmit(project);
+    console.log(project.name, project.price, project.category)
   }
 
   function handleChange(e) {
@@ -49,14 +50,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
         name="name"
         placeholder="Insert Project Name"
         handleOnChange={handleChange}
-        value={project.name ? project.name : ''}
+        value={project.name}
       />
       <Input type="number"
         text="Project Price"
         name="price"
         placeholder="Insert Project Price"
         handleOnChange={handleChange}
-        value={project.price ? project.price : ''}
+        value={project.price}
       />
       <Select name="category_id"
         text="Select Category"
@@ -65,8 +66,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
         value={project.category ? project.category.id : ''}
       />
       <Button text={btnText} />
-    </form>
-    
+    </form> 
   )
 }
 
