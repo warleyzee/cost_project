@@ -26,9 +26,8 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
   const submit = (e) => {
     e.preventDefault()
     handleSubmit(project);
-    console.log(project.name, project.price, project.category)
   }
-
+ 
   function handleChange(e) {
     setProject({ ...project, [e.target.name]: e.target.value })
   }

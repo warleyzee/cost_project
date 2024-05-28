@@ -11,11 +11,12 @@
   list-style-type: none;
 }
 
-.social_list li{
+.social_list a{
   margin: 0 1em;
+  color: #fff;
 }
 
-.social_list li:hover{
+.social_list a:hover{
   color: #ffbb33;
 }
 

@@ -12,6 +12,7 @@ function EditProject() {
   const { id } = useParams();
   const [project, setProject] = useState([]);
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const [showServiceForm, setShowServiceForm] = useState(false);
   const [message, setMessage] = useState();
   const [type, setType] = useState();
 
@@ -31,34 +32,39 @@ function EditProject() {
     }, 2000);
   }, [id])
 
-  function editPost(project){
-     if(project.price < project.cost){
+  function editPost(project) {
+    setMessage('');
+    if (project.price < project.cost) {
       setMessage('The budget cannot be greater than the cost of the project')
       setType('error')
       return false
-     }
+    }
 
-     fetch(`http://localhost:5000/projects/${project.id}`,{
+    fetch(`http://localhost:5000/projects/${project.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(project),
     })
-    .then(resp => resp.json())
-    .then((data) =>{
-      setProject(data)
-      setShowProjectForm(false)
-      //msg
-      setMessage('UPDATE PROJECT!')
-      setType('success')
+      .then(resp => resp.json())
+      .then((data) => {
+        setProject(data)
+        setShowProjectForm(false)
+        //msg
+        setMessage('UPDATE PROJECT!')
+        setType('success')
 
-    })
-    .catch((err) => console.log(err))
+      })
+      .catch((err) => console.log(err))
   }
 
   function toggleProjectForm() {
     setShowProjectForm(!showProjectForm);
+  }
+
+  function toggleServiceForm() {
+    setShowServiceForm(!showServiceForm);
   }
 
   return (
@@ -66,7 +72,7 @@ function EditProject() {
       {project.name ? (
         <div className={styles.project_details}>
           <Container customClass="column">
-            {message && <Message type={type} msg={message}/>}
+            {message && <Message type={type} msg={message} />}
             <div className={styles.details_container}>
               <h1>{project.name}</h1>
               <button className={styles.btn} onClick={toggleProjectForm}>
@@ -88,12 +94,25 @@ function EditProject() {
                 <div className={styles.info}>
                   <ProjectForm
                     handleSubmit={editPost}
-                    btnText="Concluir Edição"
+                    btnText="Finish"
                     projectData={project}
                   />
                 </div>
               )}
             </div>
+            <div className={styles.service_form_container}>
+              <h2>Add a Services</h2>
+              <button className={styles.btn} onClick={toggleServiceForm}>
+                {!showServiceForm ? 'Add Service' : 'Close'}
+              </button>
+              <div className={styles.info}>
+              {showServiceForm && <div>Form</div>}
+              </div>
+            </div>
+            <h2>Services</h2>
+            <Container customClass="start">
+              <p>Itens Services</p>
+            </Container>
           </Container>
         </div>
       ) : (
