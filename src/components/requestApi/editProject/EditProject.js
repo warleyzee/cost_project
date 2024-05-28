@@ -1,15 +1,19 @@
-import styles from './EditProject.module.css';
-import Loading from '../../layout/loading/Loading';
-import Container from '../../layout/container/container'
-import ProjectForm from '../../project/ProjectForm'
-
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+
+import styles from './EditProject.module.css';
+import Loading from '../../layout/loading/Loading';
+import Container from '../../layout/container/container';
+import ProjectForm from '../../project/ProjectForm';
+import Message from '../../layout/message/Message';
+
 
 function EditProject() {
   const { id } = useParams();
   const [project, setProject] = useState([]);
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const [message, setMessage] = useState();
+  const [type, setType] = useState();
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,7 +32,29 @@ function EditProject() {
   }, [id])
 
   function editPost(project){
-    console.log(project, project.name, project.price, project.category)
+     if(project.price < project.cost){
+      setMessage('The budget cannot be greater than the cost of the project')
+      setType('error')
+      return false
+     }
+
+     fetch(`http://localhost:5000/projects/${project.id}`,{
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(project),
+    })
+    .then(resp => resp.json())
+    .then((data) =>{
+      setProject(data)
+      setShowProjectForm(false)
+      //msg
+      setMessage('UPDATE PROJECT!')
+      setType('success')
+
+    })
+    .catch((err) => console.log(err))
   }
 
   function toggleProjectForm() {
@@ -40,6 +66,7 @@ function EditProject() {
       {project.name ? (
         <div className={styles.project_details}>
           <Container customClass="column">
+            {message && <Message type={type} msg={message}/>}
             <div className={styles.details_container}>
               <h1>{project.name}</h1>
               <button className={styles.btn} onClick={toggleProjectForm}>
