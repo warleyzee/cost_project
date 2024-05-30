@@ -8,8 +8,45 @@
         "id": "3",
         "name": "DevOps"
       },
-      "cost": 0,
-      "services": []
+      "cost": 11810,
+      "services": [
+        {
+          "Name": "war",
+          "Cost": "12311",
+          "Description": "war",
+          "id": "4130aacb-1ec9-4ce6-85f0-9285431c5e37"
+        },
+        {
+          "Name": "war",
+          "Cost": "12311",
+          "Description": "war",
+          "id": "cb7076ae-68ad-45b5-9e01-e84834b7af78"
+        },
+        {
+          "Name": "oi",
+          "Cost": "70000",
+          "Description": "uio",
+          "id": "e52098c6-6ef1-4c7c-abe4-19febc301d8a"
+        },
+        {
+          "Name": "tst",
+          "Cost": "810",
+          "Description": "manha",
+          "id": "42204ce5-b189-4672-8543-a3232f5be40e"
+        },
+        {
+          "Name": "outro",
+          "Cost": "1000",
+          "Description": "manha",
+          "id": "89e2448b-dfed-4485-95d8-91b8a9bc461f"
+        },
+        {
+          "Name": "quinta",
+          "Cost": "10000",
+          "Description": "manha",
+          "id": "301c2753-5968-4c62-9050-c935dd1ffa70"
+        }
+      ]
     },
     {
       "id": "cc60",

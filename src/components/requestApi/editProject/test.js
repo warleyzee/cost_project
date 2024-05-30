@@ -64,53 +64,64 @@ function EditProject() {
       .catch((err) => console.log(err))
   }
 
-  function createService(project){
-    
-    const lastService = project.services[project.services.length -1]
+  function createService(project) {
+    const lastService = project.services[project.services.length - 1];
     console.log(`Esse é o último serviço: ${JSON.stringify(lastService)}`);
-    console.log(`Esse e o ultimo service ${project.cost}`);
-    
-    lastService.id = uuidv4();
-
-    const lastServiceCost = lastService.Cost
-    console.log(`Essa e a variavel lastServiceCost: ${lastServiceCost}`)
-    const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
-    console.log(`Essa e a variavel newCost ${newCost}, valor do projeto: ${project.price}`)
-
-    if (newCost > parseFloat(project.price)) {
-      setMessage('Orçamento ultrapassado, verifique o valor do serviço!')
-      setType('error')
-      project.services.pop()
-      return false
-    } else {
-      setMessage('Service ADD!')
-      setType('success')
+  
+    // Garantir que lastService e seus atributos existam e sejam números válidos
+    if (!lastService || isNaN(parseFloat(lastService.cost))) {
+      setMessage('O custo do último serviço é inválido!');
+      setType('error');
+      return false;
     }
-
+  
+    // Verificar e logar o custo atual do projeto
+    console.log(`Custo atual do projeto: ${project.cost}`);
+  
+    // Tratar caso onde o custo do projeto é null ou undefined
+    if (project.cost == null || isNaN(parseFloat(project.cost))) {
+      project.cost = 0;
+    } else {
+      project.cost = parseFloat(project.cost);
+    }
+  
+    const lastServiceCost = parseFloat(lastService.cost);
+    const newCost = project.cost + lastServiceCost;
+    console.log(`Novo custo do projeto após adicionar o serviço: ${newCost}`);
+  
+    if (newCost > parseFloat(project.price)) {
+      setMessage('Orçamento ultrapassado, verifique o valor do serviço!');
+      setType('error');
+      project.services.pop();
+      return false;
+    }
+  
     project.cost = newCost;
-    fetch(`http://localhost:5000/projects/${project.id}`,{
+  
+    fetch(`http://localhost:5000/projects/${project.id}`, {
       method: 'PATCH',
-      headers:{
-        'Content-Type': 'application/json'
+      headers: {
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(project)
+      body: JSON.stringify(project),
     })
     .then((resp) => resp.json())
-    .then((data) =>{
-      //show services
-      // console.log(`esse e o service ${JSON.stringify(data)}`)
+    .then((data) => {
+      // show services
+      setServices(data.services);
+      setMessage('Serviço adicionado com sucesso!');
+      setType('success');
     })
-    .catch((err) => console.log(err))
-
+    .catch((err) => console.log(err));
   }
+  
+  
 
   function toggleProjectForm() {
     setShowProjectForm(!showProjectForm);
   }
 
   function toggleServiceForm() {
-    // console.log(`Esse e o ultimo service ${project.cost}`);
-    // console.log(`Esse e o VALOR DO PROJETO ${project.price}`);
     setShowServiceForm(!showServiceForm);
   }
 
