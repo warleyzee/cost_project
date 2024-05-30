@@ -1,4 +1,4 @@
-import { parse, v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -115,86 +115,108 @@ function EditProject() {
     setShowServiceForm(!showServiceForm);
   }
 
-  function removeService() {
+  function removeService(id, cost) {
+    const servicesUpdated = project.services.filter(
+      (service) => service.id !== id,
+    )
 
+    const projectUpdated = project
+
+    projectUpdated.services = servicesUpdated
+    projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost)
+
+    fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projectUpdated),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setProject(projectUpdated)
+        setServices(servicesUpdated)
+        setMessage('Service removed with success!')
+      })
+      .catch((err) => console.log(err))
   }
 
-  return (
-    <>
-      {project.name ? (
-        <div className={styles.project_details}>
-          <Container customClass="column">
-            <div className={styles.details_container}>
-              <h1>{project.name}</h1>
-              <button className={styles.btn} onClick={toggleProjectForm}>
-                {!showProjectForm ? 'Edit Project' : 'Close'}
-              </button>
-              {!showProjectForm ? (
-                <div className={styles.info}>
-                  <p>
-                    <span>Category:</span> {project.category.name}
-                  </p>
-                  <p>
-                    <span>Budget:</span> €{project.price}
-                  </p>
-                  <p>
-                    <span>Cost:</span> €{project.cost}
-                  </p>
-                </div>
-              ) : (
-                <div className={styles.info}>
-                  <ProjectForm
-                    handleSubmit={editPost}
-                    btnText="Finish"
-                    projectData={project}
-                  />
-                </div>
+return (
+  <>
+    {project.name ? (
+      <div className={styles.project_details}>
+        <Container customClass="column">
+          <div className={styles.details_container}>
+            <h1>{project.name}</h1>
+            <button className={styles.btn} onClick={toggleProjectForm}>
+              {!showProjectForm ? 'Edit Project' : 'Close'}
+            </button>
+            {!showProjectForm ? (
+              <div className={styles.info}>
+                <p>
+                  <span>Category:</span> {project.category.name}
+                </p>
+                <p>
+                  <span>Budget:</span> €{project.price}
+                </p>
+                <p>
+                  <span>Cost:</span> €{project.cost}
+                </p>
+              </div>
+            ) : (
+              <div className={styles.info}>
+                <ProjectForm
+                  handleSubmit={editPost}
+                  btnText="Finish"
+                  projectData={project}
+                />
+              </div>
+            )}
+          </div>
+          <div className={styles.service_form_container}>
+            <h2>Add a Services</h2>
+            <button className={styles.btn} onClick={toggleServiceForm}>
+              {!showServiceForm ? 'Add Service' : 'Close'}
+            </button>
+            {message && <Message type={type} msg={message} />}
+            <div className={styles.info}>
+              {showServiceForm && (
+                <ServiceForm
+                  handleSubmit={createService}
+                  btnText="Add"
+                  projectData={project}
+                />
               )}
             </div>
-            <div className={styles.service_form_container}>
-              <h2>Add a Services</h2>
-              <button className={styles.btn} onClick={toggleServiceForm}>
-                {!showServiceForm ? 'Add Service' : 'Close'}
-              </button>
-              {message && <Message type={type} msg={message} />}
-              <div className={styles.info}>
-                {showServiceForm && (
-                  <ServiceForm
-                    handleSubmit={createService}
-                    btnText="Add"
-                    projectData={project}
-                  />
-                )}
-              </div>
-            </div>
-            <h2>Services</h2>
-            <Container customClass="start">
-              {services.length > 0 &&
-                services.map((service) => (
-                  <ServiceCard
-                    id={service.id}
-                    name={service.Name}
-                    cost={service.Cost}
-                    description={service.Description}
-                    key={service.id}
-                    hadleRemove={removeService}
-                  />
+          </div>
+          <h2>Services</h2>
+          <Container customClass="start">
+            {services.length > 0 &&
+              services.map((service) => (
+                <ServiceCard
+                  id={service.id}
+                  name={service.Name}
+                  cost={service.Cost}
+                  description={service.Description}
+                  key={service.id}
+                  handleRemove={removeService}
+                />
 
-                ))
+              ))
 
-              }
-              {services.length === 0 && <p>There are no services registered </p>
+            }
+            {services.length === 0 && <p>There are no services registered </p>
 
-              }
-            </Container>
+            }
           </Container>
-        </div>
-      ) : (
-        <Loading />
-      )}
+        </Container>
+      </div>
+    ) : (
+      <Loading />
+    )}
 
-    </>
-  )
+  </>
+)
 }
 
 export default EditProject;
