@@ -9,6 +9,7 @@ import Container from '../../layout/container/container';
 import ProjectForm from '../../project/ProjectForm';
 import Message from '../../layout/message/Message';
 import ServiceForm from '../../form/serviceForm/ServiceForm';
+import ServiceCard from '../requestServices/ServiceCard';
 
 
 function EditProject() {
@@ -64,18 +65,19 @@ function EditProject() {
       .catch((err) => console.log(err))
   }
 
-  function createService(project){
-    
-    const lastService = project.services[project.services.length -1]
-    console.log(`Esse é o último serviço: ${JSON.stringify(lastService)}`);
-    console.log(`Esse e o ultimo service ${project.cost}`);
-    
+  function createService(project) {
+    setMessage('');
+
+    const lastService = project.services[project.services.length - 1]
+    // console.log(`Esse é o último serviço: ${JSON.stringify(lastService)}`);
+    // console.log(`Esse e o ultimo service ${project.cost}`);
+
     lastService.id = uuidv4();
 
     const lastServiceCost = lastService.Cost
-    console.log(`Essa e a variavel lastServiceCost: ${lastServiceCost}`)
+    // console.log(`Essa e a variavel lastServiceCost: ${lastServiceCost}`)
     const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
-    console.log(`Essa e a variavel newCost ${newCost}, valor do projeto: ${project.price}`)
+    // console.log(`Essa e a variavel newCost ${newCost}, valor do projeto: ${project.price}`)
 
     if (newCost > parseFloat(project.price)) {
       setMessage('Orçamento ultrapassado, verifique o valor do serviço!')
@@ -83,24 +85,25 @@ function EditProject() {
       project.services.pop()
       return false
     } else {
-      setMessage('Service ADD!')
+      setMessage('Service ADD to Project!')
       setType('success')
     }
 
     project.cost = newCost;
-    fetch(`http://localhost:5000/projects/${project.id}`,{
+    fetch(`http://localhost:5000/projects/${project.id}`, {
       method: 'PATCH',
-      headers:{
+      headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(project)
     })
-    .then((resp) => resp.json())
-    .then((data) =>{
-      //show services
-      // console.log(`esse e o service ${JSON.stringify(data)}`)
-    })
-    .catch((err) => console.log(err))
+      .then((resp) => resp.json())
+      .then((data) => {
+        setShowServiceForm(false);
+        //show services
+        // console.log(`esse e o service ${JSON.stringify(data)}`)
+      })
+      .catch((err) => console.log(err))
 
   }
 
@@ -109,9 +112,11 @@ function EditProject() {
   }
 
   function toggleServiceForm() {
-    // console.log(`Esse e o ultimo service ${project.cost}`);
-    // console.log(`Esse e o VALOR DO PROJETO ${project.price}`);
     setShowServiceForm(!showServiceForm);
+  }
+
+  function removeService() {
+
   }
 
   return (
@@ -119,7 +124,6 @@ function EditProject() {
       {project.name ? (
         <div className={styles.project_details}>
           <Container customClass="column">
-            {message && <Message type={type} msg={message} />}
             <div className={styles.details_container}>
               <h1>{project.name}</h1>
               <button className={styles.btn} onClick={toggleProjectForm}>
@@ -152,19 +156,36 @@ function EditProject() {
               <button className={styles.btn} onClick={toggleServiceForm}>
                 {!showServiceForm ? 'Add Service' : 'Close'}
               </button>
+              {message && <Message type={type} msg={message} />}
               <div className={styles.info}>
-              {showServiceForm && (
-                <ServiceForm 
-                  handleSubmit={createService}
-                  btnText="Add"
-                  projectData={project}  
-                />
-              )}
+                {showServiceForm && (
+                  <ServiceForm
+                    handleSubmit={createService}
+                    btnText="Add"
+                    projectData={project}
+                  />
+                )}
               </div>
             </div>
             <h2>Services</h2>
             <Container customClass="start">
-              <p>Itens Services</p>
+              {services.length > 0 &&
+                services.map((service) => (
+                  <ServiceCard
+                    id={service.id}
+                    name={service.Name}
+                    cost={service.Cost}
+                    description={service.Description}
+                    key={service.id}
+                    hadleRemove={removeService}
+                  />
+
+                ))
+
+              }
+              {services.length === 0 && <p>There are no services registered </p>
+
+              }
             </Container>
           </Container>
         </div>
